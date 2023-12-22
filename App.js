@@ -1,17 +1,17 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
-import { getCalendarColumns } from "./src/utils";
+import { SafeAreaView, StyleSheet, Text, View } from "react-native";
+
 import dayjs from "dayjs";
+import Calendar from "./src/Calendar";
+import { Header } from "react-native/Libraries/NewAppScreen";
 
 export default function App() {
   const now = dayjs();
-  const columns = getCalendarColumns(now);
 
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaView style={styles.container}>
+      <Calendar now={now} />
+    </SafeAreaView>
   );
 }
 
