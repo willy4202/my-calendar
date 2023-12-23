@@ -118,7 +118,7 @@ const TodoList = () => {
         ListHeaderComponent={ListHeaderComponent}
         renderItem={renderItem}
         showsVerticalScrollIndicator={false}
-        // refreshControl={<RefreshControl onRefresh={onRefresh} />}
+        refreshControl={<RefreshControl onRefresh={onRefresh} />}
       />
       <AddTodoInput
         value={input}
