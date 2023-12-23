@@ -4,10 +4,10 @@ import dayjs from "dayjs";
 import { getCalendarColumns, getDayColor } from "./utils";
 import Column from "./Column";
 import ListHeader from "./Header";
+import { useCalendar } from "./hook/useCalendar";
 
 const Calendar = () => {
-  const now = dayjs();
-  const [selectedDate, setSelectedDate] = useState(now);
+  const { selectedDate, setSelectedDate } = useCalendar();
   const columns = getCalendarColumns(selectedDate);
 
   const renderItem = ({ item: date }) => {

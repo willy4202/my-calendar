@@ -6,32 +6,31 @@ import dayjs from "dayjs";
 import Margin from "./Margin";
 import ArrowIcon from "./ArrowIcon";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { useCalendar } from "./hook/useCalendar";
 
-const ListHeader = ({ now, setSelectedDate }) => {
+const ListHeader = () => {
   const currentDateText = dayjs(now).format("YYYY.MM.DD");
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const {
+    selectedDate: now,
+    setSelectedDate,
+    isDatePickerVisible,
+    showDatePicker,
+    hideDatePicker,
+    handleConfirm,
+  } = useCalendar(now);
 
-  const showDatePicker = () => {
-    setDatePickerVisibility(true);
-  };
-
-  const hideDatePicker = () => {
-    setDatePickerVisibility(false);
-  };
-
-  const handleConfirm = (date) => {
-    setSelectedDate(dayjs(date));
-    hideDatePicker();
-  };
-
-  const onPressLeftArrow = () => {
+  const subtract1Month = () => {
     const newSelectedDate = dayjs(now).subtract(1, "month");
     setSelectedDate(newSelectedDate);
   };
-  const onPressRightArrow = () => {
+  const add1Month = () => {
     const newSelectedDate = dayjs(now).add(1, "month");
     setSelectedDate(newSelectedDate);
   };
+
+  /** 컴포넌트의 행위와 함수 내부의 로직 이름을 구분해주는 것이 직관적임 */
+  const onPressLeftArrow = subtract1Month;
+  const onPressRightArrow = add1Month;
 
   return (
     <View>
