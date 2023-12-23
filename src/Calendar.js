@@ -7,7 +7,9 @@ import ListHeader from "./Header";
 import { useCalendar } from "./hook/useCalendar";
 
 const Calendar = () => {
-  const { selectedDate, setSelectedDate } = useCalendar();
+  const now = dayjs();
+  const { selectedDate, setSelectedDate } = useCalendar(now);
+
   const columns = getCalendarColumns(selectedDate);
 
   const renderItem = ({ item: date }) => {
@@ -33,7 +35,7 @@ const Calendar = () => {
   };
 
   const ListHeaderComponent = (
-    <ListHeader now={selectedDate} setSelectedDate={setSelectedDate} />
+    <ListHeader selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
   );
 
   return (

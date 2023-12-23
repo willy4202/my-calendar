@@ -1,8 +1,7 @@
 import dayjs from "dayjs";
 import { useState } from "react";
 
-export const useCalendar = () => {
-  const now = dayjs();
+export const useCalendar = (now) => {
   const [selectedDate, setSelectedDate] = useState(now);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
@@ -14,8 +13,9 @@ export const useCalendar = () => {
     setDatePickerVisibility(false);
   };
 
-  const handleConfirm = (date) => {
-    setSelectedDate(dayjs(date));
+  const handleConfirm = (date, setSelectedDate) => {
+    const formatedDate = dayjs(date);
+    setSelectedDate(formatedDate);
     hideDatePicker();
   };
 

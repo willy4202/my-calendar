@@ -8,27 +8,25 @@ import ArrowIcon from "./ArrowIcon";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { useCalendar } from "./hook/useCalendar";
 
-const ListHeader = () => {
-  const currentDateText = dayjs(now).format("YYYY.MM.DD");
+const ListHeader = ({ selectedDate, setSelectedDate }) => {
   const {
-    selectedDate: now,
-    setSelectedDate,
     isDatePickerVisible,
     showDatePicker,
     hideDatePicker,
     handleConfirm,
-  } = useCalendar(now);
+    // subtract1Month,
+    // add1Month,
+  } = useCalendar();
 
+  const currentDateText = dayjs(selectedDate).format("YYYY.MM.DD");
   const subtract1Month = () => {
-    const newSelectedDate = dayjs(now).subtract(1, "month");
+    const newSelectedDate = dayjs(selectedDate).subtract(1, "month");
     setSelectedDate(newSelectedDate);
   };
   const add1Month = () => {
-    const newSelectedDate = dayjs(now).add(1, "month");
+    const newSelectedDate = dayjs(selectedDate).add(1, "month");
     setSelectedDate(newSelectedDate);
   };
-
-  /** 컴포넌트의 행위와 함수 내부의 로직 이름을 구분해주는 것이 직관적임 */
   const onPressLeftArrow = subtract1Month;
   const onPressRightArrow = add1Month;
 
@@ -63,7 +61,7 @@ const ListHeader = () => {
       <DateTimePickerModal
         isVisible={isDatePickerVisible}
         mode="date"
-        onConfirm={handleConfirm}
+        onConfirm={(date) => handleConfirm(date, setSelectedDate)}
         onCancel={hideDatePicker}
       />
     </View>
