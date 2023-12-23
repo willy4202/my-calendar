@@ -9,7 +9,14 @@ import React from "react";
 import dayjs from "dayjs";
 import { AntDesign } from "@expo/vector-icons";
 
-const AddTodoInput = ({ selectedDate, value, onChangeText, onPress }) => {
+const AddTodoInput = ({
+  onChangeText,
+  onPress,
+  onSubmitEditing,
+  selectedDate,
+  onFocus,
+  value,
+}) => {
   return (
     <View style={styles.root}>
       <TextInput
@@ -17,8 +24,11 @@ const AddTodoInput = ({ selectedDate, value, onChangeText, onPress }) => {
         placeholder={`${dayjs(selectedDate).format(
           "MM.D"
         )}에 추가할 일을 입력해주세요`}
-        value={value}
         onChangeText={onChangeText}
+        onSubmitEditing={onSubmitEditing}
+        blurOnSubmit={false}
+        onFocus={onFocus}
+        value={value}
       />
       <TouchableOpacity onPress={onPress} style={{ padding: 10 }}>
         <AntDesign name="plus" size={18} />

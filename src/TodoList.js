@@ -1,12 +1,14 @@
 import {
+  Alert,
   FlatList,
   KeyboardAvoidingView,
   Platform,
+  Pressable,
   StyleSheet,
   Text,
   View,
 } from "react-native";
-import React, { Fragment } from "react";
+import React, { Fragment, useRef } from "react";
 import { useTodoList } from "./hook/useTodoList";
 import Calendar from "./Calendar";
 import { Ionicons } from "@expo/vector-icons";
@@ -18,8 +20,21 @@ import dayjs from "dayjs";
 const TodoList = () => {
   const now = dayjs();
   const { selectedDate, setSelectedDate } = useCalendar(now);
-  const { todoList, input, setInput, addTodo, removeTodo, toggleTodo } =
-    useTodoList();
+  const flatListRef = useRef(null);
+  const {
+    filteredTodoList,
+    input,
+    setInput,
+    addTodo,
+    removeTodo,
+    toggleTodo,
+    resetInput,
+  } = useTodoList();
+  console.log(filteredTodoList(selectedDate));
+  console.log(
+    "🚀 ~ file: TodoList.js:34 ~ TodoList ~ selectedDate:",
+    selectedDate
+  );
 
   ListHeaderComponent = () => {
     return (
@@ -35,28 +50,76 @@ const TodoList = () => {
     );
   };
 
-  const renderItem = ({ item }) => {
-    const { isSucess } = item;
+  const renderItem = ({ item: todo }) => {
+    const isSuccess = todo.isSuccess; // Corrected property name
+    const onPress = () => {
+      return toggleTodo(todo.id);
+    };
+    const onLongPress = () => {
+      Alert.alert("삭제하시겠어요?", "", [
+        { style: "cancel", text: "아니요" },
+        { style: "default", text: "네", onPress: () => removeTodo(todo.id) },
+      ]);
+    };
+
     return (
-      <View style={styles.todo}>
-        <Text style={styles.todoText}>{item.content}</Text>
+      <Pressable
+        onPress={onPress}
+        onLongPress={onLongPress}
+        style={styles.todo}
+      >
+        <Text style={styles.todoText}>{todo.content}</Text>
         <Ionicons
           name="ios-checkmark"
           size={16}
-          color={isSucess ? "#595959" : "#bfbfbf"}
+          color={isSuccess ? "#595959" : "#bfbfbf"}
         />
-      </View>
+      </Pressable>
     );
+  };
+
+  const scrollToEnd = () => {
+    setTimeout(() => {
+      flatListRef.current?.scrollToEnd();
+    }, 200);
+  };
+
+  const onPressAddTodo = () => {
+    addTodo(selectedDate);
+    resetInput();
+    scrollToEnd();
+  };
+  const onSubmitEditing = () => {
+    addTodo(selectedDate);
+    resetInput();
+    scrollToEnd();
+  };
+
+  const onChangeText = (value) => {
+    setInput(value);
+  };
+
+  const onFocus = () => {
+    scrollToEnd();
   };
 
   return (
     <View style={styles.root}>
       <FlatList
-        data={todoList}
+        ref={flatListRef}
+        data={filteredTodoList(selectedDate)}
         ListHeaderComponent={ListHeaderComponent}
         renderItem={renderItem}
+        showsVerticalScrollIndicator={false}
       />
-      <AddTodoInput selectedDate={selectedDate} />
+      <AddTodoInput
+        value={input}
+        selectedDate={selectedDate}
+        onPress={onPressAddTodo}
+        onChangeText={onChangeText}
+        onSubmitEditing={onSubmitEditing}
+        onFocus={onFocus}
+      />
     </View>
   );
 };
