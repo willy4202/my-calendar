@@ -1,31 +1,45 @@
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import {
+  FlatList,
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import React, { Fragment } from "react";
 import { useTodoList } from "./hook/useTodoList";
 import Calendar from "./Calendar";
 import { Ionicons } from "@expo/vector-icons";
 import Margin from "./Margin";
+import AddTodoInput from "./AddTodoInput";
+import { useCalendar } from "./hook/useCalendar";
+import dayjs from "dayjs";
 
 const TodoList = () => {
+  const now = dayjs();
+  const { selectedDate, setSelectedDate } = useCalendar(now);
   const { todoList, input, setInput, addTodo, removeTodo, toggleTodo } =
     useTodoList();
+
+  ListHeaderComponent = () => {
+    return (
+      <>
+        <Calendar
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
+        />
+        <Margin height={14} />
+        <View style={styles.divider} />
+        <Margin height={14} />
+      </>
+    );
+  };
 
   const renderItem = ({ item }) => {
     const { isSucess } = item;
     return (
-      <View
-        style={{
-          flexDirection: "row",
-          alignSelf: "center",
-          width: "100%",
-          marginVertical: 4,
-          borderRadius: 12,
-          paddingVertical: 10,
-          paddingHorizontal: 6,
-          borderBottomWidth: 1,
-          borderColor: "#a6a6a6",
-        }}
-      >
-        <Text style={{ flex: 1, fontSize: 14 }}>{item.content}</Text>
+      <View style={styles.todo}>
+        <Text style={styles.todoText}>{item.content}</Text>
         <Ionicons
           name="ios-checkmark"
           size={16}
@@ -34,16 +48,7 @@ const TodoList = () => {
       </View>
     );
   };
-  ListHeaderComponent = () => {
-    return (
-      <Fragment>
-        <Calendar />
-        <Margin height={14} />
-        <View style={styles.divider} />
-        <Margin height={14} />
-      </Fragment>
-    );
-  };
+
   return (
     <View style={styles.root}>
       <FlatList
@@ -51,6 +56,7 @@ const TodoList = () => {
         ListHeaderComponent={ListHeaderComponent}
         renderItem={renderItem}
       />
+      <AddTodoInput selectedDate={selectedDate} />
     </View>
   );
 };
@@ -59,9 +65,10 @@ export default TodoList;
 
 const styles = StyleSheet.create({
   root: {
+    flex: 1,
+    width: "100%",
     justifyContent: "center",
     alignItems: "center",
-    flex: 1,
   },
 
   divider: {
@@ -71,4 +78,17 @@ const styles = StyleSheet.create({
     backgroundColor: "#a3a3a3",
     alignSelf: "center",
   },
+
+  todo: {
+    flexDirection: "row",
+    alignSelf: "center",
+    width: "100%",
+    marginVertical: 4,
+    borderRadius: 12,
+    paddingVertical: 10,
+    paddingHorizontal: 6,
+    borderBottomWidth: 1,
+    borderColor: "#a6a6a6",
+  },
+  todoText: { flex: 1, fontSize: 14 },
 });

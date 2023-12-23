@@ -6,10 +6,7 @@ import Column from "./Column";
 import ListHeader from "./Header";
 import { useCalendar } from "./hook/useCalendar";
 
-const Calendar = () => {
-  const now = dayjs();
-  const { selectedDate, setSelectedDate } = useCalendar(now);
-
+const Calendar = ({ selectedDate, setSelectedDate }) => {
   const columns = getCalendarColumns(selectedDate);
 
   const renderItem = ({ item: date }) => {
@@ -22,6 +19,7 @@ const Calendar = () => {
       setSelectedDate(date);
     };
     const isSelected = dayjs(date).isSame(selectedDate, "date");
+    const isToday = dayjs().isSame(date, "date");
 
     return (
       <Column
@@ -30,6 +28,7 @@ const Calendar = () => {
         text={dateText}
         onPress={onPress}
         isSelected={isSelected}
+        isToday={isToday}
       />
     );
   };
