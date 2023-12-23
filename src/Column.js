@@ -10,6 +10,7 @@ const Column = ({
   disabled,
   isSelected,
   isToday,
+  hasTodo,
 }) => {
   return (
     <TouchableOpacity
@@ -24,10 +25,10 @@ const Column = ({
         borderRadius: columnSize / 2,
       }}
     >
-      {isToday && (
+      {hasTodo && (
         <View
           style={{
-            backgroundColor: "#B0C4DE",
+            backgroundColor: "#27AE60",
             width: 4,
             height: 4,
             borderRadius: 8,
@@ -37,7 +38,16 @@ const Column = ({
           }}
         />
       )}
-      <Text style={{ color, opacity, textAlign: "center" }}>{text}</Text>
+      <Text
+        style={{
+          color,
+          opacity,
+          textAlign: "center",
+          fontWeight: isToday ? "bold" : null,
+        }}
+      >
+        {text}
+      </Text>
     </TouchableOpacity>
   );
 };

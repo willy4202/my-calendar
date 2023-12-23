@@ -4,11 +4,12 @@ import {
   KeyboardAvoidingView,
   Platform,
   Pressable,
+  RefreshControl,
   StyleSheet,
   Text,
   View,
 } from "react-native";
-import React, { Fragment, useRef } from "react";
+import React, { Fragment, useCallback, useRef, useState } from "react";
 import { useTodoList } from "./hook/useTodoList";
 import Calendar from "./Calendar";
 import { Ionicons } from "@expo/vector-icons";
@@ -23,6 +24,7 @@ const TodoList = () => {
   const flatListRef = useRef(null);
   const {
     filteredTodoList,
+    todoList,
     input,
     setInput,
     addTodo,
@@ -30,11 +32,6 @@ const TodoList = () => {
     toggleTodo,
     resetInput,
   } = useTodoList();
-  console.log(filteredTodoList(selectedDate));
-  console.log(
-    "🚀 ~ file: TodoList.js:34 ~ TodoList ~ selectedDate:",
-    selectedDate
-  );
 
   ListHeaderComponent = () => {
     return (
@@ -42,6 +39,7 @@ const TodoList = () => {
         <Calendar
           selectedDate={selectedDate}
           setSelectedDate={setSelectedDate}
+          todoList={todoList}
         />
         <Margin height={14} />
         <View style={styles.divider} />
@@ -103,6 +101,15 @@ const TodoList = () => {
     scrollToEnd();
   };
 
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, []);
+
   return (
     <View style={styles.root}>
       <FlatList
@@ -111,6 +118,7 @@ const TodoList = () => {
         ListHeaderComponent={ListHeaderComponent}
         renderItem={renderItem}
         showsVerticalScrollIndicator={false}
+        // refreshControl={<RefreshControl onRefresh={onRefresh} />}
       />
       <AddTodoInput
         value={input}

@@ -5,8 +5,9 @@ import { getCalendarColumns, getDayColor } from "./utils";
 import Column from "./Column";
 import ListHeader from "./Header";
 import { useCalendar } from "./hook/useCalendar";
+import { useTodoList } from "./hook/useTodoList";
 
-const Calendar = ({ selectedDate, setSelectedDate }) => {
+const Calendar = ({ selectedDate, setSelectedDate, todoList }) => {
   const columns = getCalendarColumns(selectedDate);
 
   const renderItem = ({ item: date }) => {
@@ -20,6 +21,9 @@ const Calendar = ({ selectedDate, setSelectedDate }) => {
     };
     const isSelected = dayjs(date).isSame(selectedDate, "date");
     const isToday = dayjs().isSame(date, "date");
+    const hasTodo = todoList.find((todo) =>
+      dayjs(todo.date).isSame(dayjs(date), "date")
+    );
 
     return (
       <Column
@@ -29,6 +33,7 @@ const Calendar = ({ selectedDate, setSelectedDate }) => {
         onPress={onPress}
         isSelected={isSelected}
         isToday={isToday}
+        hasTodo={hasTodo}
       />
     );
   };

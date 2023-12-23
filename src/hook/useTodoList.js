@@ -2,24 +2,24 @@ import dayjs from "dayjs";
 import { useState } from "react";
 
 const defaultTodoList = [
-  {
-    id: 1,
-    content: "운동하기",
-    date: dayjs(),
-    isSuccess: false,
-  },
-  {
-    id: 2,
-    content: "공부하기",
-    date: dayjs(),
-    isSuccess: true,
-  },
-  {
-    id: 3,
-    content: "케이크 픽업",
-    date: dayjs(),
-    isSuccess: false,
-  },
+  // {
+  //   id: 1,
+  //   content: "운동하기",
+  //   date: dayjs(),
+  //   isSuccess: false,
+  // },
+  // {
+  //   id: 2,
+  //   content: "공부하기",
+  //   date: dayjs(),
+  //   isSuccess: true,
+  // },
+  // {
+  //   id: 3,
+  //   content: "케이크 픽업",
+  //   date: dayjs(),
+  //   isSuccess: false,
+  // },
 ];
 
 export const useTodoList = () => {
@@ -27,8 +27,8 @@ export const useTodoList = () => {
   const [input, setInput] = useState("");
 
   const addTodo = (selectedDate) => {
-    const lastTodoIdx = todoList.length - 1;
-    const newTodoId = lastTodoIdx === 0 ? 0 : todoList[lastTodoIdx].id + 1;
+    const len = todoList.length;
+    const newTodoId = len === 0 ? 0 : todoList[len - 1].id + 1;
 
     const newTodoList = [
       ...todoList,
@@ -64,7 +64,7 @@ export const useTodoList = () => {
   };
 
   return {
-    // todoList,
+    todoList,
     filteredTodoList,
     input,
     setInput,
