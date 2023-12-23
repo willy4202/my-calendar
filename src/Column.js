@@ -1,7 +1,7 @@
 import { Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 
-const columnSize = 35;
+const columnSize = 40;
 const Column = ({ text, color, opacity, onPress, disabled, isSelected }) => {
   return (
     <TouchableOpacity

@@ -9,14 +9,8 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { useCalendar } from "./hook/useCalendar";
 
 const ListHeader = ({ selectedDate, setSelectedDate }) => {
-  const {
-    isDatePickerVisible,
-    showDatePicker,
-    hideDatePicker,
-    handleConfirm,
-    // subtract1Month,
-    // add1Month,
-  } = useCalendar();
+  const { isDatePickerVisible, showDatePicker, hideDatePicker, handleConfirm } =
+    useCalendar();
 
   const currentDateText = dayjs(selectedDate).format("YYYY.MM.DD");
   const subtract1Month = () => {

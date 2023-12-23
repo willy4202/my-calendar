@@ -39,7 +39,7 @@ const Calendar = () => {
   );
 
   return (
-    <View>
+    <View style={{ flex: 1 }}>
       <FlatList
         data={columns}
         numColumns={7}
