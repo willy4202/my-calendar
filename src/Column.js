@@ -1,12 +1,23 @@
-import { Text, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 
 const columnSize = 35;
-const Column = ({ text, color, opacity }) => {
+const Column = ({ text, color, opacity, onPress, disabled, isSelected }) => {
   return (
-    <View style={{ width: columnSize, height: columnSize }}>
-      <Text style={{ color, opacity }}>{text}</Text>
-    </View>
+    <TouchableOpacity
+      onPress={onPress}
+      disabled={disabled}
+      style={{
+        width: columnSize,
+        height: columnSize,
+        backgroundColor: isSelected ? "#c2c2c2" : "transparent",
+        justifyContent: "center",
+        alignContent: "center",
+        borderRadius: columnSize / 2,
+      }}
+    >
+      <Text style={{ color, opacity, textAlign: "center" }}>{text}</Text>
+    </TouchableOpacity>
   );
 };
 export default Column;

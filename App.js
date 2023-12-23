@@ -1,16 +1,15 @@
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaView, StyleSheet, Text, View } from "react-native";
-
-import dayjs from "dayjs";
+// import dayjs from "dayjs";
 import Calendar from "./src/Calendar";
 import { Header } from "react-native/Libraries/NewAppScreen";
 
 export default function App() {
-  const now = dayjs();
+  // const now = dayjs();
 
   return (
     <SafeAreaView style={styles.container}>
-      <Calendar now={now} />
+      <Calendar />
     </SafeAreaView>
   );
 }
